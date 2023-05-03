@@ -1,26 +1,26 @@
 package com.LSG.UMS.Services;
 
 import com.LSG.UMS.Models.User;
+import com.LSG.UMS.Repository.UserRepository;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import com.LSG.UMS.Models.mockDb;
+
 
 @Service
 public class UserService {
+    mockDb myDb = new mockDb();
+    private final UserRepository userRepository;
+
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     public List<User> getUsers() {
-        return List.of(
-                new User(
-                        "Miguel",
-                        "miguel@gmail.com", "12345678", "admin"
-                ),
-                new User(
-                        "Pepe",
-                        "pepeTheFrog@gmail.com", "123456756", "user"
-                ),
-                new User(
-                        "IShowSpeed",
-                        "Siwi7@gmail.com", "Suiiii", "user"
-                )
-        );
+        return userRepository.findAll();
+    }
+
+    public void addUser(User user){
+        userRepository.save(user);
     }
 }

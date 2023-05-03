@@ -27,6 +27,6 @@ public class UserController {
 
     @PostMapping
     public void registerNewUser(User user){
-        System.out.println(user);
+        userService.addUser(user);
     }
 }
