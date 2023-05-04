@@ -1,5 +1,6 @@
 package com.LSG.UMS.Services;
 
+import com.LSG.UMS.Models.Role;
 import com.LSG.UMS.Models.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -19,23 +20,40 @@ import java.util.function.Function;
 public class JwtService {
 
     private static final String SECRET_KEY = "2A462D4A614E645267556B58703273357638792F413F4428472B4B6250655368";
+
     public static String extractUserEmail(String token) {
         return extractClaim(token, Claims::getSubject);
     }
 
-    public String generateToken(UserDetails userDetail){
-        return generateToken(new HashMap<>(), userDetail);
+    //    public String generateToken(User userDetail){
+//        return generateToken(new HashMap<>(), userDetail);
+//    }
+    public String generateToken(String username, String role ,long id) {
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("role", role);
+        claims.put("id", id);
+        return generateToken(claims, username);
     }
 
-    public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
+    public String generateToken(Map<String, Object> extraClaims, String subject) {
         return Jwts
                 .builder()
                 .setClaims(extraClaims)
-                .setSubject(userDetails.getUsername())
+                .setSubject(subject)
                 .setIssuedAt(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24))
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
+
+//    public String generateToken(Map<String, Object> extraClaims, User userDetails) {
+//        return Jwts
+//                .builder()
+//                .setClaims(extraClaims)
+//                .setSubject(userDetails.getUsername())
+//                .setIssuedAt(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24))
+//                .signWith(getSignInKey(), SignatureAlgorithm.HS256)
+//                .compact();
+//    }
 
     public static boolean isTokenValid(String token, UserDetails userDetails) {
         final String userEmail = extractUserEmail(token);
@@ -54,6 +72,7 @@ public class JwtService {
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
     }
+
     private static Claims extractAllClaims(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(getSignInKey())

@@ -1,9 +1,11 @@
 package com.LSG.UMS.Models;
 
-import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -13,7 +15,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 
+@NamedQuery(name = "User.GetUsersForUsers", query = "select new com.LSG.UMS.dto.UserDto(u.id,u.name, u.email,u.role) from User u where u.role = 'USER'")
 
+@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -26,6 +30,7 @@ public class User implements UserDetails {
     private Long id;
     private String name;
     private String email;
+    @JsonIgnore
     private String password;
 
     @Enumerated(EnumType.STRING)

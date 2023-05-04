@@ -1,4 +1,4 @@
-package com.LSG.UMS.Auth;
+package com.LSG.UMS.Requests;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthenticationResponse {
-    private String role;
-    private String token;
+public class UpdateUserRequestBody {
     private Long id;
+    private String name;
+    private String email;
 }
