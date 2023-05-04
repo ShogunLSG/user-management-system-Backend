@@ -27,17 +27,20 @@ public class AuthenticationService {
                 .role(Role.USER)
                 .build();
         userRepository.save(user);
-        var jwtToken = jwtService.generateToken(user);
+        var jwtToken = jwtService.generateToken(user.getUsername(), String.valueOf(Role.USER));
 
-        return AuthenticationResponse.builder().token(jwtToken).build();
+        return new AuthenticationResponse(user.getRole().name(), jwtToken, user.getId());
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
         var user = userRepository.findUserByEmail(request.getEmail()).orElseThrow();
-        var jwtToken = jwtService.generateToken(user);
+        System.out.println(user);
 
-        return AuthenticationResponse.builder().token(jwtToken).build();
+        var jwtToken = jwtService.generateToken(user.getUsername(), user.getRole().name());
+
+//        return AuthenticationResponse.builder().token(jwtToken).build();
+        return new AuthenticationResponse(user.getRole().name(), jwtToken, user.getId());
     }
 }
 
