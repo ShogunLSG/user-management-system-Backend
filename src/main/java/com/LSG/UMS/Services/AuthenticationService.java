@@ -34,11 +34,18 @@ public class AuthenticationService {
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(Role.USER)
                 .build();
+<<<<<<< HEAD
 
         userRepository.save(user);
         var jwtToken = jwtService.generateToken(user.getUsername(), String.valueOf(Role.USER), user.getId());
 
         return new ResponseEntity<>(new AuthenticationResponse(user.getRole().name(), jwtToken, user.getId()), HttpStatus.CREATED);
+=======
+        userRepository.save(user);
+        var jwtToken = jwtService.generateToken(user.getUsername(), String.valueOf(Role.USER));
+
+        return new AuthenticationResponse(user.getRole().name(), jwtToken, user.getId());
+>>>>>>> 4fdf0db7de395f2620f0bd679ddca0182ad0f555
     }
 
     public ResponseEntity<AuthenticationResponse> authenticate(AuthenticationRequest request) {
@@ -46,9 +53,16 @@ public class AuthenticationService {
         var user = userRepository.findUserByEmail(request.getEmail()).orElseThrow();
         System.out.println(user);
 
+<<<<<<< HEAD
         var jwtToken = jwtService.generateToken(user.getUsername(), user.getRole().name(),user.getId());
 
         return ResponseEntity.ok(new AuthenticationResponse(user.getRole().name(), jwtToken, user.getId()));
+=======
+        var jwtToken = jwtService.generateToken(user.getUsername(), user.getRole().name());
+
+//        return AuthenticationResponse.builder().token(jwtToken).build();
+        return new AuthenticationResponse(user.getRole().name(), jwtToken, user.getId());
+>>>>>>> 4fdf0db7de395f2620f0bd679ddca0182ad0f555
     }
 }
 
