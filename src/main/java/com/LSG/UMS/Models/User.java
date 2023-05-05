@@ -16,6 +16,7 @@ import java.util.Collection;
 import java.util.List;
 
 @NamedQuery(name = "User.GetUsersForUsers", query = "select new com.LSG.UMS.dto.UserDto(u.id,u.name, u.email,u.role) from User u where u.role = 'USER'")
+@NamedQuery(name = "User.")
 
 @Data
 @Builder

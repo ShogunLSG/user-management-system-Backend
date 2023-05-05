@@ -16,23 +16,19 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class AuthenticationController {
 
-<<<<<<< Updated upstream
-       return ResponseEntity.ok(authenticationService.authenticate(request));
-=======
     private final AuthenticationService authenticationService;
     @PostMapping("/register")
-    public ResponseEntity<?> register(
+    public ResponseEntity register(
             @RequestBody RegisterRequest request
     ){
-        return authenticationService.register(request);
-//        return new ResponseEntity(authenticationService.register(request));
+//        return authenticationService.register(request);
+        return ResponseEntity.ok(authenticationService.register(request));
     }
 
     @PostMapping("/authenticate")
-    public ResponseEntity<AuthenticationResponse> authenticate(
+    public ResponseEntity authenticate(
             @RequestBody AuthenticationRequest request){
 
         return ResponseEntity.ok(authenticationService.authenticate(request));
->>>>>>> Stashed changes
     }
 }

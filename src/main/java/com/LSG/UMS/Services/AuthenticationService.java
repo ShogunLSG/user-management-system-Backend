@@ -25,7 +25,7 @@ public class AuthenticationService {
 
     public ResponseEntity<?> register(RegisterRequest request) {
         if(userRepository.findUserByEmail(request.getEmail()).isPresent()){
-            return new ResponseEntity<>("Email already exists", HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().body("Email already exists");
         }
 
         var user = User.builder()
@@ -41,15 +41,14 @@ public class AuthenticationService {
         return new ResponseEntity<>(new AuthenticationResponse(user.getRole().name(), jwtToken, user.getId()), HttpStatus.CREATED);
     }
 
-    public AuthenticationResponse authenticate(AuthenticationRequest request) {
+    public ResponseEntity<AuthenticationResponse> authenticate(AuthenticationRequest request) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
         var user = userRepository.findUserByEmail(request.getEmail()).orElseThrow();
         System.out.println(user);
 
         var jwtToken = jwtService.generateToken(user.getUsername(), user.getRole().name(),user.getId());
 
-//        return AuthenticationResponse.builder().token(jwtToken).build();
-        return new AuthenticationResponse(user.getRole().name(), jwtToken, user.getId());
+        return ResponseEntity.ok(new AuthenticationResponse(user.getRole().name(), jwtToken, user.getId()));
     }
 }
 
