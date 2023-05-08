@@ -29,11 +29,10 @@ public class SecurityConfiguration {
                 .permitAll()
                 .requestMatchers("/api/v1/user/**")
                 .permitAll()
-<<<<<<< HEAD
+                .requestMatchers("/api/v1/admin/**")
+                .permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/h2-console/**"))
                 .permitAll()
-=======
->>>>>>> 4fdf0db7de395f2620f0bd679ddca0182ad0f555
                 .anyRequest()
                 .authenticated()
                 .and()

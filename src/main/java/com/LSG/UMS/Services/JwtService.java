@@ -25,19 +25,10 @@ public class JwtService {
         return extractClaim(token, Claims::getSubject);
     }
 
-    //    public String generateToken(User userDetail){
-//        return generateToken(new HashMap<>(), userDetail);
-//    }
-<<<<<<< HEAD
-    public String generateToken(String username, String role ,long id) {
-        Map<String, Object> claims = new HashMap<>();
-        claims.put("role", role);
-        claims.put("id", id);
-=======
     public String generateToken(String username, String role) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("role", role);
->>>>>>> 4fdf0db7de395f2620f0bd679ddca0182ad0f555
+
         return generateToken(claims, username);
     }
 
@@ -47,19 +38,10 @@ public class JwtService {
                 .setClaims(extraClaims)
                 .setSubject(subject)
                 .setIssuedAt(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24))
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24 * 10))
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
-
-//    public String generateToken(Map<String, Object> extraClaims, User userDetails) {
-//        return Jwts
-//                .builder()
-//                .setClaims(extraClaims)
-//                .setSubject(userDetails.getUsername())
-//                .setIssuedAt(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24))
-//                .signWith(getSignInKey(), SignatureAlgorithm.HS256)
-//                .compact();
-//    }
 
     public static boolean isTokenValid(String token, UserDetails userDetails) {
         final String userEmail = extractUserEmail(token);

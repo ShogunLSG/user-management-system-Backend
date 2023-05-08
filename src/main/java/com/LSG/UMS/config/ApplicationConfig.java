@@ -1,6 +1,5 @@
 package com.LSG.UMS.config;
 
-import com.LSG.UMS.Models.User;
 import com.LSG.UMS.Repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;

@@ -15,8 +15,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 
-@NamedQuery(name = "User.GetUsersForUsers", query = "select new com.LSG.UMS.dto.UserDto(u.id,u.name, u.email,u.role) from User u where u.role = 'USER'")
-@NamedQuery(name = "User.GetUsers", query = "select new com.LSG.UMS.dto.UserDto(u.id,u.name, u.email,u.role) from User u")
+//@NamedQuery(name = "User.findByRole", query = "select new com.LSG.UMS.dto.UserDto(u.id,u.name, u.email,u.role) from User u where u.role = 'USER'")
+@NamedQuery(name = "User.save", query = "update User u set u.name = ?1, u.email = ?2 where u.id = ?3")
 
 @Data
 @Builder
@@ -31,6 +31,7 @@ public class User implements UserDetails {
     private Long id;
     private String name;
     private String email;
+    private boolean locked;
     @JsonIgnore
     private String password;
 
@@ -42,6 +43,7 @@ public class User implements UserDetails {
         this.email = email;
         this.password = password;
         this.role = role;
+        this.locked = false;
     }
 
     @Override
