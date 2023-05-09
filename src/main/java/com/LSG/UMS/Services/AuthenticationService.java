@@ -13,6 +13,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
@@ -39,14 +41,16 @@ public class AuthenticationService {
         return ResponseEntity.ok(new AuthenticationResponse(user.getRole().name(), jwtToken, user.getId()));
     }
 
-    public ResponseEntity<AuthenticationResponse> authenticate(AuthenticationRequest request) {
+    public ResponseEntity<?> authenticate(AuthenticationRequest request) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
         var user = userRepository.findUserByEmail(request.getEmail()).orElseThrow();
         System.out.println(user);
 
         var jwtToken = jwtService.generateToken(user.getUsername(), user.getRole().name());
 
-
+        if(user.isLocked()){
+            return ResponseEntity.badRequest().body("User account is locked please contact admin");
+        }
         return ResponseEntity.ok(new AuthenticationResponse(user.getRole().name(), jwtToken, user.getId()));
     }
 }

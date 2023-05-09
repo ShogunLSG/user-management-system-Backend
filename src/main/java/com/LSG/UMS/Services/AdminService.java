@@ -22,21 +22,19 @@ public class AdminService {
         return ResponseEntity.ok(adminRepository.findAll());
     }
 
-//    public ResponseEntity toggleUserStatus(long id) {
-//        var user = adminRepository.findById(id).orElseThrow();
-//
-//        user.setLocked(!user.isLocked());
-//        adminRepository.save(user);
-//        return ResponseEntity.ok().build();
-//    }
-
     public ResponseEntity toggleUserStatus(long id) {
         try {
             var user = adminRepository.findById(id).orElseThrow();
 
-            user.setLocked(!user.isLocked());
-            adminRepository.save(user);
-            return ResponseEntity.ok("User status changed successfully");
+            if(user.isLocked()) {
+                user.setLocked(false);
+                adminRepository.save(user);
+                return ResponseEntity.ok("User account unlocked successfully");
+            } else {
+                user.setLocked(true);
+                adminRepository.save(user);
+                return ResponseEntity.ok("User account locked successfully");
+            }
         } catch (Exception e) {
             // Handle the exception here
             e.printStackTrace();
@@ -59,9 +57,16 @@ public class AdminService {
         try {
             var user = adminRepository.findById(id).orElseThrow();
 
-            user.setRole(Role.ADMIN);
-            adminRepository.save(user);
-            return ResponseEntity.ok("User successfully updated");
+            if(user.getRole().equals(Role.ADMIN)){
+                user.setRole(Role.USER);
+                adminRepository.save(user);
+                return ResponseEntity.ok("User admin privileges revoked");
+            } else {
+                user.setRole(Role.ADMIN);
+                adminRepository.save(user);
+                return ResponseEntity.ok("User granted admin privileges");
+            }
+
         } catch (Exception e) {
             // Handle the exception here
             e.printStackTrace();
