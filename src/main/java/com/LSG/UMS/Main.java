@@ -5,10 +5,12 @@ import com.LSG.UMS.Repository.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.SpringApplication;
+import org.springframework.context.annotation.Import;
 
 import static com.LSG.UMS.Models.Role.ADMIN;
 
 @SpringBootApplication
+@Import({com.LSG.UMS.config.CorsConfig.class})
 public class Main implements CommandLineRunner {
     private final UserRepository userRepository;
 
