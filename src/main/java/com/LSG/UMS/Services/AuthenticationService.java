@@ -46,12 +46,18 @@ public class AuthenticationService {
         var user = userRepository.findUserByEmail(request.getEmail()).orElseThrow(() -> new RuntimeException("User already exists"));
         System.out.println(user);
 
-        var jwtToken = jwtService.generateToken(user.getUsername(), user.getRole().name());
+        if(user != null){
+            System.out.println("user is not null");
+            var jwtToken = jwtService.generateToken(user.getUsername(), user.getRole().name());
 
-        if(user.isLocked()){
-            return ResponseEntity.badRequest().body("User account is locked please contact admin");
-        }
-        return ResponseEntity.ok(new AuthenticationResponse(user.getRole().name(), jwtToken, user.getId()));
+            if(user.isLocked()){
+                return ResponseEntity.badRequest().body("User account is locked please contact admin");
+            }
+            return ResponseEntity.ok(new AuthenticationResponse(user.getRole().name(), jwtToken, user.getId()));
+        }else
+            return ResponseEntity.badRequest().body("User does not exist");
+
+
     }
 }
 

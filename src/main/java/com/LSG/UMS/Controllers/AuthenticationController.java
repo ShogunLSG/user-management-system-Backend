@@ -22,6 +22,7 @@ public class AuthenticationController {
     public ResponseEntity register(
             @RequestBody RegisterRequest request
     ){
+        System.out.println("register Request: "+ request);
         return ResponseEntity.ok(authenticationService.register(request));
     }
 

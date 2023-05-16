@@ -31,6 +31,9 @@ public class UserController {
 
     @GetMapping(path = "/users")
     public ResponseEntity<List<User>> getUsers(@RequestBody GetUsersRequestBody request) {
+        System.out.println("Fetching users");
+        System.out.println("request: "+request);
+
             return userService.getUsersForUsers();
     }
 
