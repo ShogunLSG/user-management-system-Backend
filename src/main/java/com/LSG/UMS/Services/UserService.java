@@ -36,4 +36,7 @@ public class UserService {
         return ResponseEntity.ok(userRepository.save(oldUser));
     }
 
+    public ResponseEntity<List<User>> getUsersForAdmin() {
+        return ResponseEntity.ok(userRepository.findAll());
+    }
 }

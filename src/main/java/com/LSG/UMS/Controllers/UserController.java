@@ -30,12 +30,21 @@ public class UserController {
     }
 
     @GetMapping(path = "/users")
-    public ResponseEntity<List<User>> getUsers(@RequestBody GetUsersRequestBody request) {
+    public ResponseEntity<List<User>> getUsers() {
         System.out.println("Fetching users");
-        System.out.println("request: "+request);
 
-            return userService.getUsersForUsers();
+        return userService.getUsersForUsers();
+
     }
+
+    @GetMapping(path = "/admin")
+    public ResponseEntity<List<User>> getUsersForAdmin() {
+        System.out.println("Fetching users");
+
+        return userService.getUsersForAdmin();
+
+    }
+
 
 
 }

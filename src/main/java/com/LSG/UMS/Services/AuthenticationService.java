@@ -44,7 +44,7 @@ public class AuthenticationService {
     public ResponseEntity<?> authenticate(AuthenticationRequest request) {
 //        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
         var user = userRepository.findUserByEmail(request.getEmail()).orElseThrow(() -> new RuntimeException("User already exists"));
-        System.out.println(user);
+        System.out.println("returned user "+user);
 
         if(user != null){
             System.out.println("user is not null");

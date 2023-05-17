@@ -38,7 +38,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         final String userEmail;
         final JwtService jwtService;
-if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             System.out.println("error returned from invalid token");
             filterChain.doFilter(request, response);
             return;
@@ -72,8 +72,6 @@ if (authHeader == null || !authHeader.startsWith("Bearer ")) {
         System.out.println("response = " + response);
 
         filterChain.doFilter(request, response);
-        System.out.println("filterChain.doFilter(request, response) called");
-
 
     }
 }

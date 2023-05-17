@@ -35,4 +35,12 @@ public class AdminController {
     public ResponseEntity deleteUser(@PathVariable Long id) {
         return adminService.deleteUser(id);
     }
+
+    @GetMapping(path = "/admins")
+    public ResponseEntity<List<User>> getUsersForAdmin() {
+        System.out.println("Fetching users");
+
+        return adminService.getUsersForAdmin();
+
+    }
 }
