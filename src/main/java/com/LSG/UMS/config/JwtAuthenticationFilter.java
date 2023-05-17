@@ -39,26 +39,40 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         final String userEmail;
         final JwtService jwtService;
 if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            System.out.println("error returned from invalid token");
             filterChain.doFilter(request, response);
             return;
         }
 
         jwt = authHeader.substring(7);
+        System.out.println("extracted jwt = " + jwt);
         userEmail = JwtService.extractUserEmail(jwt);
+        System.out.println("extracted userEmail = " + userEmail);
+        System.out.println("SecurityContextHolder.getContext().getAuthentication() = " + SecurityContextHolder.getContext().getAuthentication());
         if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            System.out.println("userEmail not null and SecurityContextHolder.getContext().getAuthentication() == null");
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
+            System.out.println("userDetails = " + userDetails);
             if(JwtService.isTokenValid(jwt, userDetails)){
+                System.out.println("token valid");
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                         userDetails,
                         null,
                         userDetails.getAuthorities()
                 );
+                System.out.println("authToken = " + authToken);
                 authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request)
                 );
+                System.out.println("authToken = " + authToken);
                 SecurityContextHolder.getContext().setAuthentication(authToken);
+                System.out.println("SecurityContextHolder.getContext().getAuthentication() = " + SecurityContextHolder.getContext().getAuthentication());
             }
         }
+        System.out.println("request = " + request.getHeader("Authorization"));
+        System.out.println("response = " + response);
+
         filterChain.doFilter(request, response);
+        System.out.println("filterChain.doFilter(request, response) called");
 
 
     }
