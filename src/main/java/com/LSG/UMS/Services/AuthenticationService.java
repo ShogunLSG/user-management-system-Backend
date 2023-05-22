@@ -36,7 +36,7 @@ public class AuthenticationService {
                 .build();
 
         userRepository.save(user);
-        var jwtToken = jwtService.generateToken(user.getEmail(), String.valueOf(Role.USER));
+        var jwtToken = jwtService.generateToken(user.getEmail(), String.valueOf(Role.USER),user.getId(),user.getName());
 
         return ResponseEntity.ok().body(new AuthenticationResponse(user.getRole().name(), jwtToken, user.getId()));
     }
@@ -48,7 +48,7 @@ public class AuthenticationService {
 
         if(user != null){
             System.out.println("user is not null");
-            var jwtToken = jwtService.generateToken(user.getUsername(), user.getRole().name());
+            var jwtToken = jwtService.generateToken(user.getUsername(), user.getRole().name(),user.getId(),user.getName());
 
             if(user.isLocked()){
                 return ResponseEntity.badRequest().body("User account is locked please contact admin");

@@ -22,25 +22,20 @@ public class AdminService {
         return ResponseEntity.ok(adminRepository.findAll());
     }
 
-    public ResponseEntity toggleUserStatus(long id) {
+    public ResponseEntity toggleUserStatus(long id, boolean locked) {
         try {
             var user = adminRepository.findById(id).orElseThrow();
 
-            if(user.isLocked()) {
-                user.setLocked(false);
-                adminRepository.save(user);
-                return ResponseEntity.ok("User account unlocked successfully");
-            } else {
-                user.setLocked(true);
-                adminRepository.save(user);
-                return ResponseEntity.ok("User account locked successfully");
-            }
+            user.setLocked(locked);
+            adminRepository.save(user);
         } catch (Exception e) {
             // Handle the exception here
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
+        return ResponseEntity.ok("User status updated");
     }
+
 
     public ResponseEntity deleteUser(Long id) {
         try {

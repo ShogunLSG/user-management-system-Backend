@@ -4,6 +4,7 @@ import com.LSG.UMS.Models.Role;
 import com.LSG.UMS.Models.User;
 import com.LSG.UMS.Repository.UserRepository;
 import com.LSG.UMS.Requests.UpdateUserRequestBody;
+import com.LSG.UMS.Requests.updatePasswordRequestBody;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -27,16 +28,34 @@ public class UserService {
 
     public ResponseEntity updateUser(@NotNull UpdateUserRequestBody user) {
         System.out.println("user details "+user);
-        var oldUser = userRepository.findUserByEmail(user.getEmail()).orElseThrow(() -> new IllegalStateException("User with email " + user.getEmail() + " does not exist"));
-
-        oldUser.setEmail(user.getEmail());
-        oldUser.setName(user.getName());
+        var oldUser = userRepository.findById(user.getId());
         System.out.println("old user details "+oldUser);
+        if(oldUser.isEmpty()){
+            return ResponseEntity.badRequest().body("User does not exist");
+        }
+        Role role;
 
-        return ResponseEntity.ok(userRepository.save(oldUser));
+        if(user.getIsAdmin()){
+            role = Role.ADMIN;
+        }else{
+            role = Role.USER;
+        }
+        System.out.println("New updated user: "+user);
+        System.out.println("user role: "+role);
+        oldUser.get().setRole(role);
+        oldUser.get().setEmail(user.getEmail());
+        oldUser.get().setName(user.getName());
+
+        return ResponseEntity.ok(userRepository.save(oldUser.get()));
     }
 
     public ResponseEntity<List<User>> getUsersForAdmin() {
         return ResponseEntity.ok(userRepository.findAll());
+    }
+
+    public void updatePassword(updatePasswordRequestBody user) {
+        var oldUser = userRepository.findById(user.getId());
+        oldUser.get().setPassword(user.getPassword());
+        userRepository.save(oldUser.get());
     }
 }
