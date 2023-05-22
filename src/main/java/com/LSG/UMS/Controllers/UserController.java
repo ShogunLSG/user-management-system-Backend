@@ -27,8 +27,8 @@ public class UserController {
     @PostMapping(path = "/updateDetails")
     public ResponseEntity updateUser(@RequestBody UpdateUserRequestBody user) {
 
-        userService.updateUser(user);
-        return ResponseEntity.ok().build();
+
+        return userService.updateUser(user);
     }
 
     @GetMapping(path = "/users")
@@ -51,8 +51,8 @@ public class UserController {
     @PostMapping(path = "/updatePassword")
     public ResponseEntity updatePassword(@RequestBody updatePasswordRequestBody user) {
         System.out.println("user details "+user);
-        userService.updatePassword(user);
-        return ResponseEntity.ok().build();
+
+        return userService.updatePassword(user);
     }
 
 

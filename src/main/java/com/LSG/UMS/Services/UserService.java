@@ -53,9 +53,12 @@ public class UserService {
         return ResponseEntity.ok(userRepository.findAll());
     }
 
-    public void updatePassword(updatePasswordRequestBody user) {
+    public ResponseEntity updatePassword(updatePasswordRequestBody user) {
         var oldUser = userRepository.findById(user.getId());
         oldUser.get().setPassword(user.getPassword());
+
+        System.out.println("New updated user: "+oldUser);
         userRepository.save(oldUser.get());
+        return  ResponseEntity.ok("Password updated successfully");
     }
 }
