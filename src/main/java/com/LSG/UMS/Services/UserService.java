@@ -6,8 +6,10 @@ import com.LSG.UMS.Repository.UserRepository;
 import com.LSG.UMS.Requests.UpdateUserRequestBody;
 import com.LSG.UMS.Requests.updatePasswordRequestBody;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
 
@@ -16,10 +18,14 @@ import java.util.List;
 public class UserService {
 
     private final UserRepository userRepository;
+    private PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository,PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
     }
+
+
 
     public ResponseEntity<List<User>> getUsersForUsers() {
         return ResponseEntity.ok(userRepository.findByRole(Role.USER));
@@ -55,7 +61,9 @@ public class UserService {
 
     public ResponseEntity updatePassword(updatePasswordRequestBody user) {
         var oldUser = userRepository.findById(user.getId());
-        oldUser.get().setPassword(user.getPassword());
+        var password = passwordEncoder.encode(user.getPassword());
+        System.out.println("encoded password "+password);
+        oldUser.get().setPassword(password);
 
         System.out.println("New updated user: "+oldUser);
         userRepository.save(oldUser.get());
