@@ -6,6 +6,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.annotation.Import;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import static com.LSG.UMS.Models.Role.ADMIN;
 import static com.LSG.UMS.Models.Role.USER;
@@ -15,8 +16,11 @@ import static com.LSG.UMS.Models.Role.USER;
 public class Main implements CommandLineRunner {
     private final UserRepository userRepository;
 
-    public Main(UserRepository userRepository) {
+    private final PasswordEncoder passwordEncoder;
+
+    public Main(UserRepository userRepository,PasswordEncoder passwordEncoder  ) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public static void main(String[] args) {
@@ -25,9 +29,9 @@ public class Main implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        User user = new User("LSG", "user@user.com", "$2a$10$/Rd9ANzumSW3FQYvpMTc3e2cLFR7ea1x25SOyFtiBgQTDXxPh7SYe", ADMIN,0123456);
-        User user2 = new User("LSG2", "user2@user.com", "$2a$10$/Rd9ANzumSW3FQYvpMTc3e2cLFR7ea1x25SOyFtiBgQTDXxPh7SYe", ADMIN, 0123456);
-        User user3 = new User("LSG3", "user3@user.com", "$2a$10$/Rd9ANzumSW3FQYvpMTc3e2cLFR7ea1x25SOyFtiBgQTDXxPh7SYe", ADMIN, 0123456);
+        User user = new User("LSG", "user@user.com", passwordEncoder.encode("1234") , ADMIN,0123456);
+        User user2 = new User("LSG2", "user2@user.com", passwordEncoder.encode("1234"), ADMIN, 0123456);
+        User user3 = new User("LSG3", "user3@user.com", passwordEncoder.encode("1234"), ADMIN, 0123456);
         User user4 = new User("LSG4", "user4@user.com", "$2a$10$/Rd9ANzumSW3FQYvpMTc3e2cLFR7ea1x25SOyFtiBgQTDXxPh7SYe", ADMIN, 0123456);
         User user5 = new User("LSG5", "user5@user.com", "$2a$10$/Rd9ANzumSW3FQYvpMTc3e2cLFR7ea1x25SOyFtiBgQTDXxPh7SYe", USER, 0123456);
         User user6 = new User("LSG6", "user6@user.com", "$2a$10$/Rd9ANzumSW3FQYvpMTc3e2cLFR7ea1x25SOyFtiBgQTDXxPh7SYe", USER, 0123456);
