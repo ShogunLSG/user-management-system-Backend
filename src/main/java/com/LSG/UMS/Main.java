@@ -25,13 +25,13 @@ public class Main implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        User user = new User("LSG", "user@user.com", "password", ADMIN);
-        User user2 = new User("LSG2", "user2@user.com", "password", ADMIN);
-        User user3 = new User("LSG3", "user3@user.com", "password", ADMIN);
-        User user4 = new User("LSG4", "user4@user.com", "password", ADMIN);
-        User user5 = new User("LSG5", "user5@user.com", "password", USER);
-        User user6 = new User("LSG6", "user6@user.com", "password", USER);
-        User user7 = new User("LSG7", "user7@user.com", "password", USER);
+        User user = new User("LSG", "user@user.com", "$2a$10$/Rd9ANzumSW3FQYvpMTc3e2cLFR7ea1x25SOyFtiBgQTDXxPh7SYe", ADMIN,0123456);
+        User user2 = new User("LSG2", "user2@user.com", "$2a$10$/Rd9ANzumSW3FQYvpMTc3e2cLFR7ea1x25SOyFtiBgQTDXxPh7SYe", ADMIN, 0123456);
+        User user3 = new User("LSG3", "user3@user.com", "$2a$10$/Rd9ANzumSW3FQYvpMTc3e2cLFR7ea1x25SOyFtiBgQTDXxPh7SYe", ADMIN, 0123456);
+        User user4 = new User("LSG4", "user4@user.com", "$2a$10$/Rd9ANzumSW3FQYvpMTc3e2cLFR7ea1x25SOyFtiBgQTDXxPh7SYe", ADMIN, 0123456);
+        User user5 = new User("LSG5", "user5@user.com", "$2a$10$/Rd9ANzumSW3FQYvpMTc3e2cLFR7ea1x25SOyFtiBgQTDXxPh7SYe", USER, 0123456);
+        User user6 = new User("LSG6", "user6@user.com", "$2a$10$/Rd9ANzumSW3FQYvpMTc3e2cLFR7ea1x25SOyFtiBgQTDXxPh7SYe", USER, 0123456);
+        User user7 = new User("LSG7", "user7@user.com", "$2a$10$/Rd9ANzumSW3FQYvpMTc3e2cLFR7ea1x25SOyFtiBgQTDXxPh7SYe", USER, 0123456);
         userRepository.save(user);
         userRepository.save(user2);
         userRepository.save(user3);

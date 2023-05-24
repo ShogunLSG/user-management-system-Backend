@@ -31,6 +31,7 @@ public class User implements UserDetails {
     private Long id;
     private String name;
     private String email;
+    private Number phone;
     private boolean locked;
     @JsonIgnore
     private String password;
@@ -38,12 +39,13 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    public User(String name, String email, String password, Role role) {
+    public User(String name, String email, String password, Role role, Number phone) {
         this.name = name;
         this.email = email;
         this.password = password;
         this.role = role;
         this.locked = false;
+        this.phone = phone;
     }
 
     @Override

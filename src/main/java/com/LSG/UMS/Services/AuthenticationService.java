@@ -33,22 +33,24 @@ public class AuthenticationService {
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(Role.USER)
+                .phone(request.getPhone())
                 .build();
 
         userRepository.save(user);
-        var jwtToken = jwtService.generateToken(user.getEmail(), String.valueOf(Role.USER),user.getId(),user.getName());
+        var jwtToken = jwtService.generateToken(user.getEmail(), String.valueOf(Role.USER),user.getId(),user.getName(),user.getPhone());
 
         return ResponseEntity.ok().body(new AuthenticationResponse(user.getRole().name(), jwtToken, user.getId()));
     }
 
     public ResponseEntity<?> authenticate(AuthenticationRequest request) {
+        System.out.println("Authenticating user");
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
         var user = userRepository.findUserByEmail(request.getEmail()).orElseThrow(() -> new RuntimeException("User already exists"));
         System.out.println("returned user "+user);
 
         if(user != null){
             System.out.println("user is not null");
-            var jwtToken = jwtService.generateToken(user.getUsername(), user.getRole().name(),user.getId(),user.getName());
+            var jwtToken = jwtService.generateToken(user.getUsername(), user.getRole().name(),user.getId(),user.getName(),user.getPhone());
 
             if(user.isLocked()){
                 return ResponseEntity.badRequest().body("User account is locked please contact admin");

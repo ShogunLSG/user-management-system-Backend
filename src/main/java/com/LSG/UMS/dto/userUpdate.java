@@ -1,4 +1,4 @@
-package com.LSG.UMS.Auth;
+package com.LSG.UMS.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,11 +9,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class RegisterRequest {
+public class userUpdate {
+    private Long id;
     private String name;
-    private String password;
     private String email;
-    private String role = "USER";
     private Number phone;
-
 }

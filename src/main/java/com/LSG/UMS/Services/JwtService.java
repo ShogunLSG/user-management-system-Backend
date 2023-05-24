@@ -25,12 +25,13 @@ public class JwtService {
         return extractClaim(token, Claims::getSubject);
     }
 
-    public String generateToken(String username, String role, Long id, String name) {
+    public String generateToken(String username, String role, Long id, String name, Number phone) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("role", role);
         claims.put("email", username);
         claims.put("id", id);
         claims.put("name", name);
+        claims.put("phone", phone);
         return generateToken(claims, username);
     }
 

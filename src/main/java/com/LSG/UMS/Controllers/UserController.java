@@ -6,6 +6,7 @@ import com.LSG.UMS.Requests.GetUsersRequestBody;
 import com.LSG.UMS.Requests.UpdateUserRequestBody;
 import com.LSG.UMS.Requests.updatePasswordRequestBody;
 import com.LSG.UMS.Services.UserService;
+import com.LSG.UMS.dto.userUpdate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -53,6 +54,18 @@ public class UserController {
         System.out.println("user details "+user);
 
         return userService.updatePassword(user);
+    }
+
+    @PostMapping(path = "/updateMyDetails")
+    public ResponseEntity updateUserDetails(@RequestBody userUpdate user) {
+
+
+        return userService.updateUserDetails(user);
+    }
+
+    @DeleteMapping(path = "/deleteUser/{id}")
+    public ResponseEntity deleteUser(@PathVariable Long id) {
+        return userService.deleteUser(id);
     }
 
 
